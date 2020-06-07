@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import Button from 'react-bootstrap/Button'
+import * as firebase from "firebase/app";
+import "firebase/database";
 
 class TextBox extends Component{
     constructor(props) {
