@@ -1,53 +1,89 @@
-import React from 'react';
+import React, {useState} from 'react';
 import NotesTitle from './NotesTitle';
 import TextBox from './TextBox';
 import CompleteBox from './CompleteBox';
-import Image from './Image'
+import ImageBox from './ImageBox'
+import DateBox from './DateBox.js'
 import { Link } from 'react-router-dom';
 import* as ROUTES from '../../Constants/routes';
-import Date from './Date.js'
+import Button from 'react-bootstrap/Button';
 import * as firebase from "firebase/app";
 import "firebase/database";
 
 function ToDoNote (props){
+    const [title, setTitle] = useState('Click to edit title')
+    
+    var date = new Date().getDate();
+    var month = new Date().getMonth();
+    var year = new Date().getFullYear()
+    const [createdDate, setCreated] = useState(new Date(year, month, date))
+    const [dueDate, setDue] = useState(new Date(year, month, date))
+
+    const [text, setText] = useState('')
+
+    const [url, setUrl] = useState('')
+    const [isDone, setDone] = useState(false)
+
     var database = firebase.database();
-    var key = Math.floor(Math.random()*10000)
+    const [key, setKey] = useState('')
 
     // handler to delete the current note
     const deleteNote= () =>{
-        database.ref('notes/' + key).remove()
+        if (key)
+            database.ref('notes/' + key).remove()
     };
     
-    // check if props is accessing an existing note and get values if so
-    if (props.Id){
-        key = props.Id
-    }
-    // otherwise create a new note in database and set to default values
-    else{
-            database.ref('notes/' + key).set({
-            title: 'Click to edit note Title',
-            date_created: 'Click to set date' ,
-            date_due: 'Click to set date',
-            isDone: false,
-            img: '', 
-        });
+    // const gotData = data => {
+    //     var element = data.val()
+    //     console.log(element)
+    //     setTitle(element.title);
+    //     setCreated(element.createdDate);
+    //     setDue(element.dueDate);
+    //     setText(element.text);
+    //     setUrl(element.url);
+    //     setDone(element.isDone);          
+    // };
+
+    // // check if props is accessing an existing note and get values if so
+    // if (props.load){
+    //     key = props.key
+    //     database.ref('notes/-M9WiCBAAgYyTj0eTW99').on('value', gotData)
+    // }
+
+    const handleSave= ()=>{
+        var note = {
+            title: title,
+            createdDate: createdDate,
+            dueDate: dueDate,
+            text: text,
+            url: url,
+            isDone: isDone
+        };
+        if(!key){
+            setKey(database.ref('notes/').push(note).key)
+        }
+        else{
+            database.ref('notes/'+key).set(note)
+        }
     }
 
     return(
-        <div className = 'flex-container-col' id='noteCard' style={{backgroundColor : 'lightcoral','textAlign':'center'}}>
+        <div className = 'flex-container-col' id='noteCard'
+        style={{backgroundColor : (isDone ?'palegreen':'lightcoral'),'textAlign':'center'}}>
             <div className = 'flex-container-row'>
                 <Link to={ROUTES.COMPILED_TO_DO_LIST}>Back</Link>
-                <NotesTitle Id = {key}/>
+                <NotesTitle title = {title} setTitle={setTitle} />
                 <Link to={ROUTES.COMPILED_TO_DO_LIST} onClick = {deleteNote}>delete</Link>
             </div>
-            <Image Id = {key}/>
+            <ImageBox url = {url} setUrl = {setUrl}/>
             <div className = 'flex-container-row'>
-                Date Created:<Date Id = {key} element = {'date_created'}/> 
-                Due Date:<Date Id = {key} element = {'date_due'}/>
+                Date Created:<DateBox createdDate = {createdDate} setCreated={setCreated}/> 
+                Due Date:<DateBox dueDate = {dueDate} setDue={setDue}/>
             </div> 
-            <TextBox Id = {key} />
-            <div className = 'flex-container-right'>
-                <CompleteBox Id = {key}/> 
+            <TextBox text = {text} setText={setText} className = 'flex-container-col'/>
+            <div className = 'flex-container-row'>
+                <Button to={ROUTES.COMPILED_TO_DO_LIST} onClick={handleSave}>Save</Button>
+                <CompleteBox isDone = {isDone} setDone = {setDone} /> 
             </div>
         </div>
     )

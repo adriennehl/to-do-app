@@ -1,7 +1,7 @@
-import React from 'react';
-import Image from 'react-bootstrap';
+import React,{useState} from 'react';
+import Image from 'react-bootstrap/Image';
 
-function Image(props){
+function ImageBox(props){
     const [display, setDisplay] = useState('none');
 
     const handleChange = evt => {
@@ -9,7 +9,7 @@ function Image(props){
     };
 
     const toggleInput = () => {
-        setDisplay(display=='none'?'block':'none')
+        setDisplay(display==='none'?'block':'none')
     }
 
 
@@ -20,8 +20,9 @@ function Image(props){
             contenteditable="true"
             onChange = {handleChange}
             style = {{display:display}}
+            placeholder = 'Paste Image Url here'
             />
-            <Image alt = 'Click to Show/Hide Url' id = 'myImg' src={url} 
+            <Image alt = 'Click to Show/Hide Image Url' src={props.url} 
             onClick={toggleInput}
             width= {500} height={300}
             style={{'fontSize':'large'}}
@@ -31,4 +32,4 @@ function Image(props){
 
 }
 
-export default Image;
+export default ImageBox;

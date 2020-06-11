@@ -31,7 +31,6 @@ ReactDOM.render(
     <App />
   </React.StrictMode>,
   document.getElementById('root'),
-  console.log(document.getElementById('noteCard'))
 );
 
 // If you want your app to work offline and load faster, you can change
