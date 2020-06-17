@@ -10,6 +10,9 @@ import Landing from "../Landing";
 import SignIn from "../SignIn";
 import SignUp from "../SignUp";
 import ToDoNote from "../ToDoNote";
+import 'react-notifications/lib/notifications.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { NotificationContainer } from 'react-notifications'
 
 import * as ROUTES from '../../Constants/routes'
 const App = () => (
@@ -21,6 +24,7 @@ const App = () => (
         <Route path = {ROUTES.SIGN_IN} component={SignIn} />
         <Route path = {ROUTES.SIGN_UP} component={SignUp} />
         <Route path = {ROUTES.COMPILED_TO_DO_LIST} component={CompiledToDoList} />
+        <NotificationContainer/>
 
     </Router>
 );

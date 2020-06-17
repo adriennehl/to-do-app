@@ -1,33 +1,20 @@
-import React, { Component } from 'react'
-import * as firebase from "firebase/app";
-import "firebase/database";
+import React from 'react';
 
-class TextBox extends Component{
-    constructor(props) {
-        super(props);
-        this.handleChange = this.handleChange.bind(this)
-        this.state = {username: ''};
-    }
+function TextBox(props){
+   
+    const handleChange = evt => {
+        props.setText(evt.target.value)
+    };
 
-    handleChange(e){
-        this.setState({username: e.target.value})
-    }
+    return(
+        <textarea
+            value = {props.text}
+            onChange = {handleChange}
+            placeholder = {'Click to edit text'}
+            style ={{fontSize:'large'}}
+        />
+    )
 
-    render() {
-        return (
-            <span>
-                <input
-                    type="text"
-                    value={this.state.value}
-                    onChange={this.handleChange}
-                />
-                <h1>
-                    { this.state.username }
-                </h1>
-            </span>
-
-        );
-    }
 }
 
 export default TextBox;
