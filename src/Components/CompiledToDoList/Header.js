@@ -3,6 +3,7 @@ import styled from "styled-components";
 import CreateNoteButton from "./CreateNoteButton";
 import PreviousPageButton from "./PreviousPageButton";
 import SearchBar from "./SearchBar";
+import Filter from "./Filter"
 import CompletionBox from "./CompletionBox";
 
 const WrapperRow = styled.div`
@@ -51,12 +52,8 @@ const Header = () => (
             <PreviousPageButton />
             <Title>To Do App</Title>
             <CreateNoteButton />
+            <Filter />
         </WrapperRow2>
-        <WrapperRow>
-            <SearchBar />
-            <Title>To Do App</Title>
-            <CreateNoteButton />
-        </WrapperRow>
     </WrapperCol>
 );
 

@@ -18,7 +18,7 @@ function CompleteBox (props){
         });
         document.getElementById('noteCard').style='background-color:' + (element ?'palegreen':'lightcoral') + ';'
     };
-    
+
     return (
         <label>
             Completed
