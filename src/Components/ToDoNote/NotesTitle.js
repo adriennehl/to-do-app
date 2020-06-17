@@ -1,5 +1,4 @@
 import React from 'react';
-import ContentEditable from 'react-contenteditable';
 import * as firebase from "firebase/app";
 import "firebase/database";
 

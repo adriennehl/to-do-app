@@ -1,17 +1,60 @@
 import React, {Component} from "react";
 import {DropdownButton, Dropdown} from "react-bootstrap";
+import PostData from "./Data/posts.json"
+import PreviewFunctions from "./NotePreview/PreviewFunctions";
+import { connect } from 'react-redux'
+
+
+import CurrentList from "./NotePreview/PreviewFunctions"
+
+
 
 class Filter extends  Component {
     constructor(props) {
         super(props);
-        this.filterChange = this.filterChange.bind(this);
-        this.state = {filter: null};
+        this.listReverse = this.listReverse.bind(this)
+        this.listSort = this.listSort.bind(this)
+        this.filterChange = this.filterChange.bind(this)
+        this.state = {
+            currList: []
+        }
+
+    }
+
+    componentDidMount () {
+        this.setState({
+            currList: PostData
+        })
     }
 
     filterChange(e){
-        console.log("EVENT", e);
         this.setState({filter: e});
+        if(e == "1"){
+            this.listReverse()
+        }
+        else if(e == "2"){
+            this.listSort()
+        }
+        else if(e == "3"){
+        }
     }
+
+    listReverse(event){
+        let noteList  = [... this.props.noteList].reverse()
+
+        console.log("NOTELIST", noteList)
+        this.props.setNote({
+            noteList
+        })
+    }
+
+    listSort(event){
+        let noteList  = [... this.props.noteList].sort((a,b) => (a.date) - (b.date))
+        this.props.setNote({
+            noteList
+        })
+    }
+
 
 
 
@@ -22,31 +65,47 @@ class Filter extends  Component {
                     alignRight
                     onSelect={this.filterChange}
                 >
-                    <Dropdown.Toggle variant="success" id="dropdown-basic">
-                        Dropdown Button
+                    <Dropdown.Toggle variant="success" id="dropdown-basic" >
+                        Filter
                     </Dropdown.Toggle>
 
                     <Dropdown.Menu>
                         <ul>
-                        <   Dropdown.Item eventKey="1">Action</Dropdown.Item>
+                            <Dropdown.Item eventKey="1">Reverse the List</Dropdown.Item>
                         </ul>
                         <ul>
-                            <Dropdown.Item eventKey="2">Another action</Dropdown.Item>
+                            <Dropdown.Item eventKey="2">Filter by Complete</Dropdown.Item>
                         </ul>
                         <ul>
-                        <Dropdown.Item eventKey="3">Something else</Dropdown.Item>
+                            <Dropdown.Item eventKey="3">Something else</Dropdown.Item>
                         </ul>
                     </Dropdown.Menu>
                 </Dropdown>
-
-                <h1>
-                    {this.state.filter}
-                </h1>
             </span>
         );
     }
 }
 
+function mapStateToProps(state){
+    console.log("STATE", state)
+    return{
+        noteList: state.noteState.noteList
+    }
+}
 
-export default Filter
+const mapDispatchToProps = (dispatch) => ({
+    setNote: (noteList) => {
+        console.log(noteList.noteList)
+        dispatch({type: 'NOTE_LIST', noteList: noteList.noteList});
+    }
+});
+
+
+
+export default connect(
+        mapStateToProps,
+        mapDispatchToProps
+    )
+(Filter);
+
 

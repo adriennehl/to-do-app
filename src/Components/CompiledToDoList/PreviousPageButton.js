@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import { Button, Dropdown } from "react-bootstrap";
 import styled from "styled-components";
+import { withRouter } from 'react-router-dom'
 
 const BackButton = styled.button`  
   padding: 10px 20px;
@@ -22,19 +23,23 @@ class PreviousPageButton extends  Component {
         this.buttonPressed = this.buttonPressed.bind(this);
         this.state = {pressed: false};
     }
+    nextPath(path){
+        this.props.history.push(path)
+    }
 
     buttonPressed(){
         console.log("EVENT", this.state);
         this.setState({pressed: !this.state.pressed});
+        this.nextPath('/');
     }
 
     render() {
         return(
-            <BackButton onClick={this.buttonPressed} />
+            <BackButton onClick={this.buttonPressed}> Previous </BackButton>
         );
     }
 }
 
 
-export default PreviousPageButton
+export default withRouter(PreviousPageButton)
 

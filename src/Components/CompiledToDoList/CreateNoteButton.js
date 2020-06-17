@@ -1,8 +1,11 @@
 import React, {Component} from "react";
 import { Button, Dropdown } from "react-bootstrap";
 import styled from "styled-components";
+import {withRouter} from 'react-router-dom'
+import * as ROUTES from "../../Constants/routes";
+import ToDoNote from "../ToDoNote";
 
-const FilterButton = styled.button`
+const NoteButton = styled.button`
   padding: 10px 20px;
   border: none;
   border-radius: 4px;
@@ -23,18 +26,23 @@ class CreateNoteButton extends  Component {
         this.state = {pressed: false};
     }
 
+    nextPath(path){
+        this.props.history.push(path)
+    }
+
     buttonPressed(){
         console.log("EVENT", this.state);
         this.setState({pressed: !this.state.pressed});
+        this.nextPath('/note');
     }
 
     render() {
         return(
-                <FilterButton onClick={this.buttonPressed} />
+            <NoteButton onClick={this.buttonPressed}> New Note </NoteButton>
         );
     }
 }
 
 
-export default CreateNoteButton
+export default withRouter(CreateNoteButton)
 
