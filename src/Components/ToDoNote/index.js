@@ -1,12 +1,17 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import NotesTitle from './NotesTitle';
 import TextBox from './TextBox';
 import CompleteBox from './CompleteBox';
-import ImageBox from './ImageBox'
-import DateBox from './DateBox.js'
+import ImageBox from './ImageBox';
+import DateBox from './DateBox.js';
+import LandscapeLottie from './LandscapeLottie.jsx';
+
 import { Link } from 'react-router-dom';
 import* as ROUTES from '../../Constants/routes';
+
 import Button from 'react-bootstrap/Button';
+import {NotificationManager} from 'react-notifications';
+
 import * as firebase from "firebase/app";
 import "firebase/database";
 
@@ -25,7 +30,13 @@ function ToDoNote (props){
     const [isDone, setDone] = useState(false)
 
     var database = firebase.database();
-    const [key, setKey] = useState('')
+    const [key, setKey] = useState(props.noteKey ? props.noteKey:'')
+
+    useEffect(() => {
+        if (props.noteKey){
+            database.ref('notes/'+props.noteKey).on('value', gotData);
+        }
+    }, [database, props.noteKey]);
 
     // handler to delete the current note
     const deleteNote= () =>{
@@ -33,28 +44,21 @@ function ToDoNote (props){
             database.ref('notes/' + key).remove()
     };
     
-    // const gotData = data => {
-    //     var element = data.val()
-    //     console.log(element)
-    //     setTitle(element.title);
-    //     setCreated(element.createdDate);
-    //     setDue(element.dueDate);
-    //     setText(element.text);
-    //     setUrl(element.url);
-    //     setDone(element.isDone);          
-    // };
-
-    // // check if props is accessing an existing note and get values if so
-    // if (props.load){
-    //     key = props.key
-    //     database.ref('notes/-M9WiCBAAgYyTj0eTW99').on('value', gotData)
-    // }
+    const gotData = data => {
+        var element = data.val()
+        setTitle(element.title);
+        setCreated(new Date(element.createdDate));
+        setDue(new Date (element.dueDate));
+        setText(element.text);
+        setUrl(element.url);
+        setDone(element.isDone);          
+    };
 
     const handleSave= ()=>{
         var note = {
             title: title,
-            createdDate: createdDate,
-            dueDate: dueDate,
+            createdDate: createdDate.valueOf(),
+            dueDate: dueDate.valueOf(),
             text: text,
             url: url,
             isDone: isDone
@@ -65,6 +69,15 @@ function ToDoNote (props){
         else{
             database.ref('notes/'+key).set(note)
         }
+        NotificationManager.success('You have saved changes', 'Saved!', 2000);
+    }
+
+    const daysLeft = () =>{
+        var date = new Date().getDate();
+        var month = new Date().getMonth();
+        var year = new Date().getFullYear();
+        var today = (new Date(year, month, date))
+        return Math.max(0, (dueDate.getTime()- today.getTime())/(1000*60*60*24))
     }
 
     return(
@@ -76,13 +89,19 @@ function ToDoNote (props){
                 <Link to={ROUTES.COMPILED_TO_DO_LIST} onClick = {deleteNote}>delete</Link>
             </div>
             <ImageBox url = {url} setUrl = {setUrl}/>
+            {url?null:<LandscapeLottie style={{ display: url==='' ? "block" : "none" }}/>}
             <div className = 'flex-container-row'>
-                Date Created:<DateBox createdDate = {createdDate} setCreated={setCreated}/> 
-                Due Date:<DateBox dueDate = {dueDate} setDue={setDue}/>
+                Date Created:<DateBox element = 'created' createdDate = {createdDate} setCreated={setCreated}/> 
+                Due Date:<DateBox element = 'due' dueDate = {dueDate} setDue={setDue}/>
             </div> 
             <TextBox text = {text} setText={setText} className = 'flex-container-col'/>
             <div className = 'flex-container-row'>
-                <Button to={ROUTES.COMPILED_TO_DO_LIST} onClick={handleSave}>Save</Button>
+                <Button variant = 'success' 
+                onClick={handleSave} style={{marginTop:'10px'}}>Save</Button>
+                <div className = 'flex-container-col'>
+                    <p style={{marginTop:'20px'}}>Days Left:</p>
+                    <h2>{daysLeft()}</h2>
+                </div>
                 <CompleteBox isDone = {isDone} setDone = {setDone} /> 
             </div>
         </div>

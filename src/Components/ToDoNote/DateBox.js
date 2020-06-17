@@ -16,8 +16,8 @@ function DateBox(props){
         <DatePicker
             className = 'date'
             placeholderText="Click to select a date"
-            selected={(props.createdDate ? props.createdDate:props.dueDate)}
-            onChange = {(props.createdDate ? handleCreatedChange:handleDueChange)}
+            selected={(props.element === 'created'? props.createdDate:props.dueDate)}
+            onChange = {(props.element === 'created' ? handleCreatedChange:handleDueChange)}
         />
     )
 }

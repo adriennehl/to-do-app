@@ -2,14 +2,14 @@ import React from 'react';
 
 function CompleteBox (props){
 
-    const handleClick = () => {
+    const handleChange = () => {
         props.setDone(!props.isDone)
     };
     
     return (
         <label>
             Completed
-            <input onClick = {handleClick} type = 'checkbox'>
+            <input onChange = {handleChange} type = 'checkbox' checked= {props.isDone}>
             </input>
         </label>
     )

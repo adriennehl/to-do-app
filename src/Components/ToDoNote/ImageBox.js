@@ -3,6 +3,7 @@ import Image from 'react-bootstrap/Image';
 
 function ImageBox(props){
     const [display, setDisplay] = useState('none');
+    var height = props.url ? '250px':'20px';
 
     const handleChange = evt => {
         props.setUrl(evt.target.value)
@@ -24,8 +25,8 @@ function ImageBox(props){
             />
             <Image alt = 'Click to Show/Hide Image Url' src={props.url} 
             onClick={toggleInput}
-            width= {500} height={300}
-            style={{'fontSize':'large'}}
+            style={{fontSize:'large', paddingTop:'5px',
+            width: '500px', height:height}}
             fluid/>
         </>
     )
