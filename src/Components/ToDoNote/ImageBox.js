@@ -17,17 +17,17 @@ function ImageBox(props){
     return(
         <>
             <input
-                html = {props.url}
-                contenteditable="true"
-                onChange = {handleChange}
-                style = {{display:display}}
-                placeholder = 'Paste Image Url here'
+            html = {props.url}
+            contenteditable="true"
+            onChange = {handleChange}
+            style = {{display:display}}
+            placeholder = 'Paste Image Url here'
             />
-            <Image alt = 'Click to Show/Hide Image Url' src={props.url}
-                   onClick={toggleInput}
-                   style={{fontSize:'large', paddingTop:'5px',
-                       width: '500px', height:height}}
-                   fluid/>
+            <Image alt = 'Click to Show/Hide Image Url' src={props.url} 
+            onClick={toggleInput}
+            style={{fontSize:'large', paddingTop:'5px',
+            width: '500px', height:height}}
+            fluid/>
         </>
     )
 

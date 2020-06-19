@@ -1,7 +1,7 @@
 import React from 'react';
 
 function TextBox(props){
-
+   
     const handleChange = evt => {
         props.setText(evt.target.value)
     };

@@ -4,6 +4,8 @@ import TextBox from './TextBox';
 import CompleteBox from './CompleteBox';
 import ImageBox from './ImageBox';
 import DateBox from './DateBox.js';
+import LandscapeLottie from './LandscapeLottie.jsx';
+
 import { Link } from 'react-router-dom';
 import* as ROUTES from '../../Constants/routes';
 
@@ -15,7 +17,7 @@ import "firebase/database";
 
 function ToDoNote (props){
     const [title, setTitle] = useState('Click to edit title')
-
+    
     var date = new Date().getDate();
     var month = new Date().getMonth();
     var year = new Date().getFullYear()
@@ -41,7 +43,7 @@ function ToDoNote (props){
         if (key)
             database.ref('notes/' + key).remove()
     };
-
+    
     const gotData = data => {
         var element = data.val()
         setTitle(element.title);
@@ -49,7 +51,7 @@ function ToDoNote (props){
         setDue(new Date (element.dueDate));
         setText(element.text);
         setUrl(element.url);
-        setDone(element.isDone);
+        setDone(element.isDone);          
     };
 
     const handleSave= ()=>{
@@ -80,26 +82,27 @@ function ToDoNote (props){
 
     return(
         <div className = 'flex-container-col' id='noteCard'
-             style={{backgroundColor : (isDone ?'palegreen':'lightcoral'),'textAlign':'center'}}>
+        style={{backgroundColor : (isDone ?'palegreen':'lightcoral'),'textAlign':'center'}}>
             <div className = 'flex-container-row'>
                 <Link to={ROUTES.COMPILED_TO_DO_LIST}>Back</Link>
                 <NotesTitle title = {title} setTitle={setTitle} />
                 <Link to={ROUTES.COMPILED_TO_DO_LIST} onClick = {deleteNote}>delete</Link>
             </div>
             <ImageBox url = {url} setUrl = {setUrl}/>
+            {url?null:<LandscapeLottie style={{ display: url==='' ? "block" : "none" }}/>}
             <div className = 'flex-container-row'>
-                Date Created:<DateBox element = 'created' createdDate = {createdDate} setCreated={setCreated}/>
+                Date Created:<DateBox element = 'created' createdDate = {createdDate} setCreated={setCreated}/> 
                 Due Date:<DateBox element = 'due' dueDate = {dueDate} setDue={setDue}/>
-            </div>
+            </div> 
             <TextBox text = {text} setText={setText} className = 'flex-container-col'/>
             <div className = 'flex-container-row'>
-                <Button variant = 'success'
-                        onClick={handleSave} style={{marginTop:'10px'}}>Save</Button>
+                <Button variant = 'success' 
+                onClick={handleSave} style={{marginTop:'10px'}}>Save</Button>
                 <div className = 'flex-container-col'>
                     <p style={{marginTop:'20px'}}>Days Left:</p>
                     <h2>{daysLeft()}</h2>
                 </div>
-                <CompleteBox isDone = {isDone} setDone = {setDone} />
+                <CompleteBox isDone = {isDone} setDone = {setDone} /> 
             </div>
         </div>
     )

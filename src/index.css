@@ -30,6 +30,7 @@ code {
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
+  align-items: center;
 }
 
 .flex-container-right{
@@ -38,5 +39,7 @@ code {
 }
 
 img {
+  display:flex;
+  margin: 10px;
   align-self: center;
 }
