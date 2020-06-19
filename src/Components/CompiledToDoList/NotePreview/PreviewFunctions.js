@@ -9,9 +9,6 @@ import {connect} from "react-redux";
 import {withFirebase} from "../../Firebase";
 import {compose} from 'recompose'
 
-
-
-
 const Wrapper3 = styled.div`
   display: flex;
   flex-direction: column;
@@ -36,34 +33,44 @@ const mapDispatchToProps = (dispatch) => ({
         }
 });
 
-
 class PreviewFunctions extends Component {
         constructor (props, context) {
                 super(props, context)
+        }
+        daysLeft(dueDate){
+                var date = new Date().getDate();
+                var month = new Date().getMonth();
+                var year = new Date().getFullYear();
+                var today = (new Date(year, month, date))
+                return Math.max(0, (dueDate - today.getTime())/(1000*60*60*24))
         }
 
         componentDidMount() {
                 this.props.firebase.notes().once("value").then(snapshot => {
                         let out = snapshot.val()
-                        let keys = Object.keys(out)
-                        jsonAdd = ""
-                        for (var i = 0; i< keys.length; i++){
-                                var k = keys[i]
-                                var title = out[k].title;
-                                var description = out[k].description;
-                                var date = out[k].date;
-                                const json = `{"title": "${title}" , "date":${date}, "description":"${description}", "keys": "${k}"}`;
-                                if(keys.length > 1 && i < keys.length - 1){
-                                        var jsonAdd = jsonAdd + json + ','
+                        if(out !== null) {
+                                let keys = Object.keys(out)
+                                jsonAdd = ""
+                                for (var i = 0; i < keys.length; i++) {
+                                        var k = keys[i]
+                                        var title = out[k].title;
+                                        var description = out[k].text;
+                                        var date = out[k].dueDate;
+                                        var daysLeft = this.daysLeft(date)
+                                        var completed = out[k].isDone;
+                                        var url = out[k].url;
+                                        const json = `{"title": "${title}" , "date":${daysLeft}, "description":"${description}", "completed":${completed}, "url": "${url}", "keys": "${k}"}`;
+                                        if (keys.length > 1 && i < keys.length - 1) {
+                                                var jsonAdd = jsonAdd + json + ','
+                                        } else {
+                                                var jsonAdd = jsonAdd + json
+                                        }
                                 }
-                                else{
-                                        var jsonAdd = jsonAdd + json
-                                }
+                                var finalJson = "[" + jsonAdd + "]"
+                                console.log(finalJson)
+                                var obj = JSON.parse(finalJson)
+                                this.props.setNote(obj);
                         }
-                        var finalJson = "[" + jsonAdd + "]"
-                        console.log(finalJson)
-                        var obj = JSON.parse(finalJson)
-                        this.props.setNote(obj);
                 })
 
         }
