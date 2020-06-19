@@ -12,8 +12,9 @@ import CurrentList from "./NotePreview/PreviewFunctions"
 class Filter extends  Component {
     constructor(props) {
         super(props);
-        this.listReverse = this.listReverse.bind(this)
-        this.listSort = this.listSort.bind(this)
+        this.listSortDate = this.listSortDate.bind(this)
+        this.listSortComplete = this.listSortComplete.bind(this)
+        this.listSortTitle = this.listSortTitle.bind(this)
         this.filterChange = this.filterChange.bind(this)
         this.state = {
             currList: []
@@ -30,26 +31,31 @@ class Filter extends  Component {
     filterChange(e){
         this.setState({filter: e});
         if(e == "1"){
-            this.listReverse()
+            this.listSortComplete()
         }
         else if(e == "2"){
-            this.listSort()
+            this.listSortDate()
         }
         else if(e == "3"){
+            this.listSortTitle()
         }
     }
 
-    listReverse(event){
-        let noteList  = [... this.props.noteList].reverse()
-
-        console.log("NOTELIST", noteList)
+    listSortComplete(event){
+        let noteList  = [... this.props.noteList].sort(a => a ? -1 : 1)
         this.props.setNote({
             noteList
         })
     }
 
-    listSort(event){
+    listSortDate(event){
         let noteList  = [... this.props.noteList].sort((a,b) => (a.date) - (b.date))
+        this.props.setNote({
+            noteList
+        })
+    }
+    listSortTitle(event){
+        let noteList  = [... this.props.noteList].sort((a, b) => a.title.toLowerCase() !== b.title.toLowerCase() ? a.title.toLowerCase() < b.title.toLowerCase() ? -1 : 1 : 0)
         this.props.setNote({
             noteList
         })
@@ -71,14 +77,15 @@ class Filter extends  Component {
 
                     <Dropdown.Menu>
                         <ul>
-                            <Dropdown.Item eventKey="1">Reverse the List</Dropdown.Item>
+                            <Dropdown.Item eventKey="1">Filter by Complete</Dropdown.Item>
                         </ul>
                         <ul>
-                            <Dropdown.Item eventKey="2">Filter by Complete</Dropdown.Item>
+                            <Dropdown.Item eventKey="2">Filter by Days Left</Dropdown.Item>
                         </ul>
                         <ul>
-                            <Dropdown.Item eventKey="3">Something else</Dropdown.Item>
+                            <Dropdown.Item eventKey="3">Filter by Title </Dropdown.Item>
                         </ul>
+
                     </Dropdown.Menu>
                 </Dropdown>
             </span>
