@@ -6,7 +6,7 @@ import ImageBox from './ImageBox';
 import DateBox from './DateBox.js';
 import LandscapeLottie from './LandscapeLottie.jsx';
 
-import { Link } from 'react-router-dom';
+import { Link, useParams, useHistory } from 'react-router-dom';
 import* as ROUTES from '../../Constants/routes';
 
 import Button from 'react-bootstrap/Button';
@@ -16,6 +16,7 @@ import * as firebase from "firebase/app";
 import "firebase/database";
 
 function ToDoNote (props){
+    const [{key}, setKey] = useState(useParams())
     const [title, setTitle] = useState('Click to edit title')
     
     var date = new Date().getDate();
@@ -30,29 +31,28 @@ function ToDoNote (props){
     const [isDone, setDone] = useState(false)
 
     var database = firebase.database();
-    const [key, setKey] = useState(props.noteKey ? props.noteKey:'')
+    let history = useHistory()
 
     useEffect(() => {
-        if (props.noteKey){
-            database.ref('notes/'+props.noteKey).on('value', gotData);
-        }
-    }, [database, props.noteKey]);
+        database.ref("notes/" + key).once("value",snapshot => {
+            if (snapshot.exists()){
+                setTitle(snapshot.child('title').val());
+                setCreated(new Date(snapshot.child('createdDate').val()));
+                setDue(new Date (snapshot.child('dueDate').val()));
+                setText(snapshot.child('text').val());
+                setUrl(snapshot.child('url').val());
+                setDone(snapshot.child('isDone').val());  
+            }
+        });
+    }, []);
 
     // handler to delete the current note
     const deleteNote= () =>{
         if (key)
             database.ref('notes/' + key).remove()
+        NotificationManager.error('Current Note has been deleted', 'Deleted!', 2000);
     };
     
-    const gotData = data => {
-        var element = data.val()
-        setTitle(element.title);
-        setCreated(new Date(element.createdDate));
-        setDue(new Date (element.dueDate));
-        setText(element.text);
-        setUrl(element.url);
-        setDone(element.isDone);          
-    };
 
     const handleSave= ()=>{
         var note = {
@@ -64,7 +64,9 @@ function ToDoNote (props){
             isDone: isDone
         };
         if(!key){
-            setKey(database.ref('notes/').push(note).key)
+            var newKey = database.ref('notes/').push(note).key
+            setKey(newKey)
+            history.push('note/'+newKey)
         }
         else{
             database.ref('notes/'+key).set(note)
@@ -77,7 +79,7 @@ function ToDoNote (props){
         var month = new Date().getMonth();
         var year = new Date().getFullYear();
         var today = (new Date(year, month, date))
-        return Math.max(0, (dueDate.getTime()- today.getTime())/(1000*60*60*24))
+        return Math.max(0, (Math.floor(dueDate.getTime()- today.getTime())/(1000*60*60*24)))
     }
 
     return(
@@ -86,7 +88,7 @@ function ToDoNote (props){
             <div className = 'flex-container-row'>
                 <Link to={ROUTES.COMPILED_TO_DO_LIST}>Back</Link>
                 <NotesTitle title = {title} setTitle={setTitle} />
-                <Link to={ROUTES.COMPILED_TO_DO_LIST} onClick = {deleteNote}>delete</Link>
+                <Button as = {Link} to = {ROUTES.COMPILED_TO_DO_LIST} variant = "danger" onClick = {deleteNote}>delete</Button>
             </div>
             <ImageBox url = {url} setUrl = {setUrl}/>
             {url?null:<LandscapeLottie style={{ display: url==='' ? "block" : "none" }}/>}

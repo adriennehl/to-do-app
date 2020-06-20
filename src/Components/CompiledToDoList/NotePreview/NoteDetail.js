@@ -4,6 +4,8 @@ import styled from "styled-components";
 import turnitup from "./turnitup.jpg";
 import ToDoNote from "../../ToDoNote";
 import {Button} from "react-bootstrap";
+import {Link} from 'react-router-dom';
+import* as ROUTES from '../../../Constants/routes';
 
 
 const Wrapper = styled.button`
@@ -110,6 +112,7 @@ class NoteDetail extends Component{
                                     <Description> Description: {this.reduceDescriptionLength(noteItem.description)} </Description>
                                 </Wrapper2>
                                 <Date>Days Left: {noteItem.date}</Date>
+                                <Button as={Link} to={"note/"+noteItem.keys} variant='info'>Details</Button>
                         </Wrapper>
         )
     }

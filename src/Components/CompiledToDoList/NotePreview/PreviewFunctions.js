@@ -42,7 +42,7 @@ class PreviewFunctions extends Component {
                 var month = new Date().getMonth();
                 var year = new Date().getFullYear();
                 var today = (new Date(year, month, date))
-                return Math.max(0, (dueDate - today.getTime())/(1000*60*60*24))
+                return Math.max(0, parseInt((dueDate - today.getTime())/(1000*60*60*24)))
         }
 
         componentDidMount() {
