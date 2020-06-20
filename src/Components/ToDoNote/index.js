@@ -86,9 +86,9 @@ function ToDoNote (props){
         <div className = 'flex-container-col' id='noteCard'
         style={{backgroundColor : (isDone ?'palegreen':'lightcoral'),'textAlign':'center'}}>
             <div className = 'flex-container-row'>
-                <Link to={ROUTES.COMPILED_TO_DO_LIST}>Back</Link>
+                <Button as ={Link} to={ROUTES.COMPILED_TO_DO_LIST} variant = 'info'>Back</Button>
                 <NotesTitle title = {title} setTitle={setTitle} />
-                <Button as = {Link} to = {ROUTES.COMPILED_TO_DO_LIST} variant = "danger" onClick = {deleteNote}>delete</Button>
+                <Button as={Link} to = {ROUTES.COMPILED_TO_DO_LIST} variant = "danger" onClick = {deleteNote}>delete</Button>
             </div>
             <ImageBox url = {url} setUrl = {setUrl}/>
             {url?null:<LandscapeLottie style={{ display: url==='' ? "block" : "none" }}/>}

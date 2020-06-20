@@ -48,9 +48,9 @@ class PreviewFunctions extends Component {
         componentDidMount() {
                 this.props.firebase.notes().once("value").then(snapshot => {
                         let out = snapshot.val()
+                        jsonAdd = ""
                         if(out !== null) {
                                 let keys = Object.keys(out)
-                                jsonAdd = ""
                                 for (var i = 0; i < keys.length; i++) {
                                         var k = keys[i]
                                         var title = out[k].title;
@@ -66,11 +66,11 @@ class PreviewFunctions extends Component {
                                                 var jsonAdd = jsonAdd + json
                                         }
                                 }
-                                var finalJson = "[" + jsonAdd + "]"
-                                console.log(finalJson)
-                                var obj = JSON.parse(finalJson)
-                                this.props.setNote(obj);
                         }
+                        var finalJson = "[" + jsonAdd + "]"
+                        console.log(finalJson)
+                        var obj = JSON.parse(finalJson)
+                        this.props.setNote(obj);
                 })
 
         }
