@@ -33,7 +33,7 @@ class CreateNoteButton extends  Component {
     buttonPressed(){
         console.log("EVENT", this.state);
         this.setState({pressed: !this.state.pressed});
-        this.nextPath('/note');
+        this.nextPath(ROUTES.NEW_NOTE);
     }
 
     render() {
