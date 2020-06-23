@@ -3,6 +3,8 @@ import PostData from "../Data/posts.json";
 import styled from "styled-components";
 import ToDoNote from "../../ToDoNote";
 import {Button} from "react-bootstrap";
+import {Link} from 'react-router-dom';
+import* as ROUTES from '../../../Constants/routes';
 
 
 const Wrapper = styled.button`
@@ -105,10 +107,11 @@ class NoteDetail extends Component{
                         <Wrapper {...noteItem} onClick = {this.handleClick}>
                                 <Picture src={noteItem.url}/>
                                 <Wrapper2>
-                                    <Title>Title: {noteItem.title}</Title>
-                                    <Description> Description: {this.reduceDescriptionLength(noteItem.description)} </Description>
+                                    <Title>{noteItem.title}</Title>
+                                    <Description> {this.reduceDescriptionLength(noteItem.description)} </Description>
                                 </Wrapper2>
                                 <Date>Days Left: {noteItem.date}</Date>
+                                <Button as={Link} to={"note/"+noteItem.keys} style = {{margin:'15px', padding:'15px'}} variant='info'>Details</Button>
                         </Wrapper>
         )
     }
