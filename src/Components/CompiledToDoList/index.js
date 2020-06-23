@@ -2,8 +2,11 @@ import React, {Component} from 'react';
 import Header from "./Header";
 import PreviewFunctions from "./NotePreview/PreviewFunctions";
 import {createStore} from "redux";
-import rootReducer from "./Reducers/reducer";
+import rootReducer from "../../Reducers/reducer";
 import {Provider} from "react-redux";
+import styled from "styled-components";
+
+
 
 const CompiledToDoList = () => (
     <div>
@@ -11,7 +14,6 @@ const CompiledToDoList = () => (
     </div>
 );
 
-const store = createStore(rootReducer)
 
 class CompiledToDoListBase extends  Component {
     constructor(props) {
@@ -19,12 +21,10 @@ class CompiledToDoListBase extends  Component {
     }
     render() {
         return(
-            <span>
-                <Provider store = {store}>
+            <div>
                 <Header />
                 <PreviewFunctions />
-                </Provider>
-            </span>
+            </div>
         )
     }
 }

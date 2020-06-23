@@ -15,8 +15,20 @@ import {NotificationManager} from 'react-notifications';
 import * as firebase from "firebase/app";
 import "firebase/database";
 
+import { useSelector } from 'react-redux'
+
+// export const currUid = props => {
+//     const uid = useSelector(state => state.noteState[props.uid])
+//     return uid
+// };
+
+
 function ToDoNote (props){
-    const [title, setTitle] = useState('Click to edit title')
+    const [title, setTitle] = useState('Click to edit title');
+    const currUid = useSelector(state => state.sessionState.authUser.uid);
+    console.log(currUid);
+
+
     
     var date = new Date().getDate();
     var month = new Date().getMonth();
@@ -30,18 +42,19 @@ function ToDoNote (props){
     const [isDone, setDone] = useState(false)
 
     var database = firebase.database();
+
     const [key, setKey] = useState(props.noteKey ? props.noteKey:'')
 
     useEffect(() => {
         if (props.noteKey){
-            database.ref('notes/'+props.noteKey).on('value', gotData);
+            database.ref('users/' + currUid +'/notes/'+props.noteKey).on('value', gotData);
         }
     }, [database, props.noteKey]);
 
     // handler to delete the current note
     const deleteNote= () =>{
         if (key)
-            database.ref('notes/' + key).remove()
+            database.ref('users/'+currUid+'/notes/' + key).remove()
     };
     
     const gotData = data => {
@@ -64,10 +77,10 @@ function ToDoNote (props){
             isDone: isDone
         };
         if(!key){
-            setKey(database.ref('notes/').push(note).key)
+            setKey(database.ref('users/' + currUid + '/notes/').push(note).key)
         }
         else{
-            database.ref('notes/'+key).set(note)
+            database.ref('users/' + currUid + '/notes/'+key).set(note)
         }
         NotificationManager.success('You have saved changes', 'Saved!', 2000);
     }

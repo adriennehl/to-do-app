@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PostData from "../Data/posts.json";
 import styled from "styled-components";
-import turnitup from "./turnitup.jpg";
 import ToDoNote from "../../ToDoNote";
 import {Button} from "react-bootstrap";
 
@@ -92,7 +91,7 @@ class NoteDetail extends Component{
 
     reduceDescriptionLength(description) {
         description = description.substring(0, Math.min(description.length, 50));
-        return description + "..."
+        return description + " ..."
 
     }
     handleClick(key){

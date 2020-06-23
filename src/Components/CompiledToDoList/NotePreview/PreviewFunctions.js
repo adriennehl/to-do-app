@@ -21,7 +21,8 @@ const Wrapper3 = styled.div`
 function mapStateToProps(state, ownProps){
         console.log("STATE", state)
         return{
-                noteList: state.noteState.noteList
+                noteList: state.noteState.noteList,
+                uid: state.sessionState.authUser.uid
         };
 }
 
@@ -46,8 +47,9 @@ class PreviewFunctions extends Component {
         }
 
         componentDidMount() {
-                this.props.firebase.notes().once("value").then(snapshot => {
+                this.props.firebase.notes(this.props.uid).once("value").then(snapshot => {
                         let out = snapshot.val()
+                        console.log("LOG", snapshot.val())
                         if(out !== null) {
                                 let keys = Object.keys(out)
                                 jsonAdd = ""

@@ -4,3 +4,8 @@ export const SIGN_UP = '/register'
 export const COMPILED_TO_DO_LIST = '/alltodo'
 export const TO_DO_NOTE = '/note'
 export const NAVIGATION = '/nav'
+export const PASSWORD_FORGET = '/forgotlol';
+export const ACCOUNT = '/account';
+export const ADMIN = '/admin';
+export const HOME = '/home';
+
