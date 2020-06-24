@@ -114,7 +114,7 @@ class NoteDetail extends Component{
                                     <Title>{noteItem.title}</Title>
                                     <Description> {this.reduceDescriptionLength(noteItem.description)} </Description>
                                 </Wrapper2>
-                                <Date>Days Left: {noteItem.date}</Date> 
+                                <Date>Days Left: {noteItem.date}</Date>
                         </Wrapper>
         )
     }

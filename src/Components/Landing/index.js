@@ -11,7 +11,6 @@ function Landing(props){
             <WorkingLottie/>
             <Button as = {Link} variant ='info' to={ROUTES.SIGN_IN}>Sign In</Button>
             <Button as = {Link} variant ='info' to={ROUTES.SIGN_UP}>Sign Up</Button>
-            <Button as = {Link} variant ='light' to={ROUTES.COMPILED_TO_DO_LIST}>Continue as Guest</Button>
         </div>
     )
 }
