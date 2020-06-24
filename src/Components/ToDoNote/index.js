@@ -14,11 +14,15 @@ import {NotificationManager} from 'react-notifications';
 
 import * as firebase from "firebase/app";
 import "firebase/database";
+import {useSelector} from "react-redux";
 
 function ToDoNote (props){
     const [{key}, setKey] = useState(useParams())
     const [title, setTitle] = useState('Click to edit title')
-    
+    const currUid = useSelector(state => state.sessionState.authUser.uid);
+    console.log(currUid);
+
+
     var date = new Date().getDate();
     var month = new Date().getMonth();
     var year = new Date().getFullYear()
@@ -34,14 +38,14 @@ function ToDoNote (props){
     let history = useHistory()
 
     useEffect(() => {
-        database.ref("notes/" + key).once("value",snapshot => {
+        database.ref('users/' + currUid +"/notes/" + key).once("value",snapshot => {
             if (snapshot.exists()){
                 setTitle(snapshot.child('title').val());
                 setCreated(new Date(snapshot.child('createdDate').val()));
                 setDue(new Date (snapshot.child('dueDate').val()));
                 setText(snapshot.child('text').val());
                 setUrl(snapshot.child('url').val());
-                setDone(snapshot.child('isDone').val());  
+                setDone(snapshot.child('isDone').val());
             }
         });
     }, []);
@@ -49,10 +53,9 @@ function ToDoNote (props){
     // handler to delete the current note
     const deleteNote= () =>{
         if (key)
-            database.ref('notes/' + key).remove()
-        NotificationManager.error('Current Note has been deleted', 'Deleted!', 2000);
+            database.ref('users/' + currUid + '/notes/' + key).remove()
+            NotificationManager.error('Current Note has been deleted', 'Deleted!', 2000);
     };
-    
 
     const handleSave= ()=>{
         var note = {
@@ -64,12 +67,12 @@ function ToDoNote (props){
             isDone: isDone
         };
         if(!key){
-            var newKey = database.ref('notes/').push(note).key
+            var newKey = database.ref('users/' + currUid + '/notes/').push(note).key
             setKey(newKey)
             history.push('note/'+newKey)
         }
         else{
-            database.ref('notes/'+key).set(note)
+            database.ref('users/' + currUid + '/notes/'+key).set(note)
         }
         NotificationManager.success('You have saved changes', 'Saved!', 2000);
     }

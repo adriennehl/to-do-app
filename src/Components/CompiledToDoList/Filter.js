@@ -5,8 +5,6 @@ import PreviewFunctions from "./NotePreview/PreviewFunctions";
 import { connect } from 'react-redux'
 
 
-import CurrentList from "./NotePreview/PreviewFunctions"
-
 
 
 class Filter extends  Component {

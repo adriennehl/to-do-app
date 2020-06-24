@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import PostData from "../Data/posts.json";
 import styled from "styled-components";
-import turnitup from "./turnitup.jpg";
 import ToDoNote from "../../ToDoNote";
 import {Button} from "react-bootstrap";
 import {Link} from 'react-router-dom';
+
 import* as ROUTES from '../../../Constants/routes';
+import {withRouter} from 'react-router-dom'
+
 
 
 const Wrapper = styled.button`
@@ -94,10 +96,11 @@ class NoteDetail extends Component{
 
     reduceDescriptionLength(description) {
         description = description.substring(0, Math.min(description.length, 50));
-        return description + "..."
+        return description + " ..."
 
     }
     handleClick(key){
+        console.log("PRessed")
     }
 
 
@@ -105,18 +108,17 @@ class NoteDetail extends Component{
     render() {
         const {noteItem} = this.props
         return(
-                        <Wrapper {...noteItem} onClick = {this.handleClick}>
+                        <Wrapper {...noteItem}  as={Link} to={"note/"+noteItem.keys}>
                                 <Picture src={noteItem.url}/>
                                 <Wrapper2>
                                     <Title>{noteItem.title}</Title>
                                     <Description> {this.reduceDescriptionLength(noteItem.description)} </Description>
                                 </Wrapper2>
                                 <Date>Days Left: {noteItem.date}</Date>
-                                <Button as={Link} to={"note/"+noteItem.keys} style = {{margin:'15px', padding:'15px'}} variant='info'>Details</Button>
                         </Wrapper>
         )
     }
 }
 
 
-export default NoteDetail
+export default (NoteDetail)
