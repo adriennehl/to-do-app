@@ -6,6 +6,15 @@ import rootReducer from "../../Reducers/reducer";
 import {Provider} from "react-redux";
 import styled from "styled-components";
 
+const Wrapper3 = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items :center;
+`;
+
+const Background = styled.div`
+    background: powderblue
+`
 
 
 const CompiledToDoList = () => (
@@ -21,10 +30,12 @@ class CompiledToDoListBase extends  Component {
     }
     render() {
         return(
-            <div>
-                <Header />
+            <Background>
+                <Wrapper3>
+                    <Header />
+                </Wrapper3>
                 <PreviewFunctions />
-            </div>
+            </Background>
         )
     }
 }

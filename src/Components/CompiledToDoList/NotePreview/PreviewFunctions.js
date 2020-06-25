@@ -13,13 +13,11 @@ const Wrapper3 = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 80%;
   padding: 10px;
-  color: #00FFFF;
 `;
 
 function mapStateToProps(state, ownProps){
-        console.log("STATE", state)
+        console.log("STATE", state.sessionState.uid)
         return{
                 noteList: state.noteState.noteList,
                 uid: state.sessionState.authUser.uid

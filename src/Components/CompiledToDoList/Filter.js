@@ -69,7 +69,7 @@ class Filter extends  Component {
                     alignRight
                     onSelect={this.filterChange}
                 >
-                    <Dropdown.Toggle variant="success" id="dropdown-basic" >
+                    <Dropdown.Toggle variant="primary" id="dropdown-basic" >
                         Filter
                     </Dropdown.Toggle>
 

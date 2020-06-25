@@ -15,10 +15,10 @@ const Wrapper = styled.button`
   flex-direction: row;
   justify-content: left;
   align-items: center;
-  width: 100%;
+  width: 80%;
   padding: 50px;
   color: #444;
-  border: 1px solid #1890ff;
+  border: 1.5px solid #de5285;
   background: ${props => props.completed ? '#98ff98' : 'papayawhip'};
 `;
 
@@ -26,7 +26,6 @@ const Wrapper = styled.button`
 const Wrapper2 = styled.div`
     display: flex;
     flex-direction: column;
-    align-items: center;
     width: 20%;
     padding: 10px;
     color: #7e118a;

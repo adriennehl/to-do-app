@@ -3,12 +3,30 @@ import { Link, withRouter } from 'react-router-dom';
 
 import { withFirebase } from '../Firebase';
 import * as ROUTES from '../../Constants/routes';
+import styled from "styled-components";
+
+const Wrapper = styled.div` 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: skyblue;    
+    position:fixed; 
+    width:100%;
+    height:100%;
+`
+
+const SignUp = styled.form`
+  display: flex;
+  padding: 5px;
+  flex-direction: column;
+  align-items: center;
+`;
 
 const SignUpPage = () => (
-    <div>
+    <Wrapper>
         <h1>SignUp</h1>
         <SignUpForm />
-    </div>
+    </Wrapper>
 );
 
 const INITIAL_STATE = {
@@ -74,7 +92,7 @@ class SignUpFormBase extends Component {
             username === '';
 
         return (
-            <form onSubmit={this.onSubmit}>
+            <SignUp onSubmit={this.onSubmit}>
                 <input
                     name="username"
                     value={username}
@@ -108,7 +126,7 @@ class SignUpFormBase extends Component {
                 </button>
 
                 {error && <p>{error.message}</p>}
-            </form>
+            </SignUp>
         );
     }
 }

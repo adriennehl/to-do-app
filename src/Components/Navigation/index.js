@@ -1,8 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import styled from "styled-components";
 
 import SignOutButton from '../SignOut';
 import* as ROUTES from '../../Constants/routes';
+
+const Background = styled.div`
+    background: powderblue;
+`;
 
 
 const Navigation = ({ authUser }) => (
@@ -11,18 +16,14 @@ const Navigation = ({ authUser }) => (
 
 
 const NavigationAuth = () => (
-    <ul>
-
-        <li>
+    <Background>
             <SignOutButton />
-        </li>
-    </ul>
+    </Background>
 );
 
 const NavigationNonAuth = () => (
-    <ul>
-
-    </ul>
+    <Background>
+    </Background>
 );
 
 export default Navigation;

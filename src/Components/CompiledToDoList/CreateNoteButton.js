@@ -6,18 +6,19 @@ import * as ROUTES from "../../Constants/routes";
 import ToDoNote from "../ToDoNote";
 
 const NoteButton = styled.button`
-  padding: 10px 20px;
-  border: none;
-  border-radius: 4px;
-  background-color: #1890ff;
-  color: #fff;
-  font-size: 14px;
+  background: powderblue;
+  color: #286FB4;
+  font-size: 1.1em;
+  margin: 1em;
+  padding: 0.8em 1em;
+  border: 2px solid GREEN-BLUE;
+  border-radius: 3px;
   cursor: pointer;
   &:hover {
-    background: #00FF00;
+    background-color: #de5285;
+    color: white;
   }
 `;
-
 
 class CreateNoteButton extends  Component {
     constructor(props) {

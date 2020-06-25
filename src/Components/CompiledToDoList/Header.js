@@ -8,53 +8,25 @@ import CompletionBox from "./CompletionBox";
 
 const WrapperRow = styled.div`
   display: flex;
+  width: 80%;
   flex-direction: row;
   justify-content: space-around;
-  align-items: left;
-  width: 80%;
-  padding: 50px;
-  color: #444;
-  border: 1px solid #1890ff;
-`;
-
-const WrapperRow2 = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  align-items: left;
-  width: 80%;
-  padding: 50px;
-  color: #444;
-  border: 1px solid #1890ff;
-`;
-
-const WrapperCol = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: left;
-  justify-content: center;  
-  padding: 50px;
-  width: 80%;            
-  color: #444;
-
+  border: 1.5px solid #de5285;
 `;
 
 const Title = styled.h1`
     color: #0d1a26;
-    align-self: self-start;
     font-weight: 400;
 `;
 
 const Header = () => (
 
-    <WrapperCol>
-        <WrapperRow2>
+        <WrapperRow>
             <PreviousPageButton />
             <Title>To Do App</Title>
             <CreateNoteButton />
             <Filter />
-        </WrapperRow2>
-    </WrapperCol>
+        </WrapperRow>
 );
 
 export default Header;
